@@ -222,7 +222,8 @@ void main(int argc, char** argv)
 	while (lykill_i != NULL)
 	{
 		lykill* tmp = lykill_i->next;
-		free(lykill_i->key);
+		if (lykill_i->next != NULL)
+			free(lykill_i->key);
 		free(lykill_i);
 		lykill_i = tmp;
 	}
@@ -298,7 +299,6 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 {
 	int i;
 	int b = 0;
-	//printf("Skoðum yfirlykilinn %s.\n", yfir_lykill);
 
 	if (key_size == 0) return;
 
@@ -308,7 +308,6 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 	{
 		if (er_jafn(lykill_i->key, yfir_lykill))
 		{
-			//printf("Við getum hætt að skoða %s því við vitum að %s er lykill.\n", yfir_lykill, lykill_i->key);
 			return;
 		}
 		lykill_i = lykill_i->next;
@@ -322,7 +321,6 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 
 	for (i = 0; i < key_size; i++)
 	{
-		//printf("%s -> [%s]\n", yfir_lykill, undir);
 		if (er_yfirlykill(undir, fa_0))
 		{
 			b++;
@@ -333,7 +331,6 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 
 	if (b == 0)
 	{
-		//printf("%s hefur verið samþykkt sem lykill því engir hlutmengi þess eru yfirlyklar.\n");
 		lykill* lykill_n = lykill_0;
 		while (lykill_n->next != NULL) lykill_n = lykill_n->next;
 		lykill_n->next = malloc(sizeof(lykill));

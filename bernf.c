@@ -300,7 +300,7 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 	int b = 0;
 	//printf("Skoðum yfirlykilinn %s.\n", yfir_lykill);
 
-	if (key_size == 0) return 0;
+	if (key_size == 0) return;
 
 	lykill* lykill_i = lykill_0;
 	if (lykill_0->next != NULL)
@@ -309,7 +309,7 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 		if (er_jafn(lykill_i->key, yfir_lykill))
 		{
 			//printf("Við getum hætt að skoða %s því við vitum að %s er lykill.\n", yfir_lykill, lykill_i->key);
-			return 0;
+			return;
 		}
 		lykill_i = lykill_i->next;
 	}

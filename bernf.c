@@ -37,9 +37,10 @@ int er_yfirlykill(char* lykill, fa* fa_0);
 //Fyrir:	yl er yfirlykill.
 //			l0 er fremsti lykill í keðju af lyklum (notað til að útiloka yfirlykla).
 //			f0 er fremsta fallaákveða í keðju af fastaákveðum.
+//			key_size er lengd yfir_lykill.
 //Eftir:	b er 1 ef yl er lykill en >0 annars. Einnig er kallað endurkvæmt á fallið til að fylla
 //			á lykilkeðjuna (sem l0 'opnar').
-int festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size);
+void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size);
 
 //Notkun:	bernf filename
 //Fyrir:	filename er nafn á skrá sem inniheldur fallaákveðurnar sem á að vinna með
@@ -61,7 +62,7 @@ int festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size)
 //Eftir:	Búið er að prenta á staðalúttakið mikilvægar upplýsingar, svo sem fallaákveðurnar,
 //			mögulega lykla, hvort venslin seú BCNF eða 3NF og ef svo er ekki, þá hvaða fallaákveður
 //			brjóta á BCNF eða 3NF.
-int main(int argc, char** argv)
+void main(int argc, char** argv)
 {
 	int i, j;
 	fa* fa_0 = malloc(sizeof(fa));
@@ -293,7 +294,7 @@ int er_jafn(char* str1, char* str2)
 	return str1[i] == str2[i];
 }
 
-int festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size)
+void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size)
 {
 	int i;
 	int b = 0;

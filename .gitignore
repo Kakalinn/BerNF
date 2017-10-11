@@ -1,3 +1,3 @@
-*.in
-*.exe
-*~
+*
+!bernf.c
+!example.in

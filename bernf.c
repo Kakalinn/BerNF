@@ -17,6 +17,9 @@ typedef struct lykill_tmp
 	struct lykill_tmp* next;
 } lykill;
 
+
+int er_undirlykill(char* undir, char* yfir);
+
 //Notkun:	b = er_jafn(str1, str2)
 //Fyrir:	str1 = [s0, s1, ..., sn] og str2 = [r0, r1, ..., rm].
 //Eftir:	b er 1 ef n = m og s0 = r0, s1 = r1, ..., sn = rm. Annars er b = 0.
@@ -33,14 +36,20 @@ int er_hluti_af(char* undir, char* yfir);
 //Eftir:	b er 1 ef lokunin (fundin með f) á l er allt umdæmið, annars 0.
 int er_yfirlykill(char* lykill, fa* fa_0);
 
-//Notkun:	b = festa_yfirlykil(yl, l0, ln, f0);
+//Notkun:	b = _festa_yfirlykil(yl, l0, ln, f0);
 //Fyrir:	yl er yfirlykill.
 //			l0 er fremsti lykill í keðju af lyklum (notað til að útiloka yfirlykla).
 //			f0 er fremsta fallaákveða í keðju af fastaákveðum.
 //			key_size er lengd yfir_lykill.
 //Eftir:	b er 1 ef yl er lykill en >0 annars. Einnig er kallað endurkvæmt á fallið til að fylla
 //			á lykilkeðjuna (sem l0 'opnar').
-void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size);
+void _festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size);
+
+//Notkun:	
+//Fyrir:	
+//Eftir:	
+void samantekt_fallaakveda();
+void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_size);
 
 //Notkun:	bernf filename
 //Fyrir:	filename er nafn á skrá sem inniheldur fallaákveðurnar sem á að vinna með
@@ -78,7 +87,10 @@ void main(int argc, char** argv)
 	}
 
 	fscanf(fp, "%d", &size);
-
+	char vensl[size + 1];
+	for (i = 0; i < size; i++) vensl[i] = 97 + i;
+	vensl[i] = '\0';
+	printf("%s\n", vensl);
 	//Les inn fjölda mögulega eiginda.
 	char c = fgetc(fp);
 	while (c == 10) c = fgetc(fp);
@@ -127,19 +139,86 @@ void main(int argc, char** argv)
 	lykill_0->next = NULL;
 
 	char yfir[size + 1];
-	for (i = 0; i < size; i++) yfir[i] = 97 + i;
+	for (i = 0; i < size; i++)
+	{
+		//yfir[i] = 97 + i;
+		yfir[i] = '_';
+
+	}
 	yfir[size] = '\0';
 
-	festa_yfirlykil(yfir, lykill_0, fa_0, size);
+	//_festa_yfirlykil(yfir, lykill_0, fa_0, size);
+	//Finnum yrirlykla
+	for (i = 0; i < size; i++)
+	{
+		yfir[i] = i + 97;
+		gen_yfirlyklar(yfir, lykill_0, fa_0, i, size);
+		yfir[i] = '_';
+	}
+	//Útilokum yfirlykla sem eru ekki lyklar
+	lykill* lykill_i = lykill_0->next;
+	lykill* lykill_j = lykill_i->next;
+	lykill* lykill_prev = lykill_0;
+	/* */
+	while (lykill_i->next != NULL)
+	{
+		lykill_j = lykill_0;
+		while (lykill_j->next != NULL)
+		{
+			if (lykill_i != lykill_j && er_undirlykill(lykill_j->key, lykill_i->key))
+			{
+				//printf("%s er      undir %s\n", lykill_j->key, lykill_i->key);
+				break;
+			}
+			else
+			{
+				//printf("%s er ekki undir %s\n", lykill_j->key, lykill_i->key);
+			}
+			lykill_j = lykill_j->next;
+		}
+		if (lykill_j->next != NULL)
+		{
+			 //printf("%s er ekki yfirlykill\n", lykill_i->key);
+			 lykill_i = lykill_i->next;
+			 free(lykill_prev->next->key);
+			 free(lykill_prev->next);
+			 lykill_prev->next = lykill_i;
+		}
+		else
+		{
+			lykill_i = lykill_i->next;
+			lykill_prev = lykill_prev->next;
+		}
+	}
+
+	lykill_j = lykill_0->next;
+	lykill_prev = lykill_0;
+	lykill_i = lykill_0->next;
+	while (lykill_j->next != NULL)
+	{
+		if (er_undirlykill(lykill_j->key, lykill_0->key))
+		{
+			break;
+		}
+		lykill_j = lykill_j->next;
+	}
+	if (lykill_j != NULL)
+	{
+		//printf("Del fyrsta %s\n", lykill_0->key);
+		free(lykill_0->key);
+		free(lykill_0);
+		lykill_0 = lykill_i;
+		lykill_prev = lykill_i;
+		lykill_i = lykill_i->next;
+	}
+	/* */
 
 	//Prentum útkomuna
-	printf("Venslin R(");
-	for (i = 0; i < size; i++) putchar(97 + i);
-	printf(") með fallaákveður:\n");
+	printf("Venslin R(%s) með fallaákveður:\n", vensl);
 
 	i = 1;	
 	fa* fa_i = fa_0;
-	lykill* lykill_i = lykill_0;
+	lykill_i = lykill_0;
 	while (fa_i != NULL)
 	{
 		printf("%d: %s -> %s\n", i++, fa_i->inn, fa_i->ut);
@@ -147,10 +226,12 @@ void main(int argc, char** argv)
 	}
 
 	printf("hafa lyklanna:\n");
-	i = 1;
 	char lykla_svid[size + 1];
-	for (i = 0; i < size; i++) lykla_svid[i] = '0';
+	for (i = 0; i < size; i++)
+		lykla_svid[i] = '0';
+
 	lykla_svid[size] = '\0';
+	i = 1;
 	while(lykill_i->next != NULL)
 	{
 		char ctmp;
@@ -219,14 +300,40 @@ void main(int argc, char** argv)
 	}
 
 	lykill_i = lykill_0;
-	while (lykill_i != NULL)
+	while (lykill_i->next != NULL)
 	{
 		lykill* tmp = lykill_i->next;
-		if (lykill_i->next != NULL)
-			free(lykill_i->key);
+		//printf("%s\n", lykill_i->key);
+		free(lykill_i->key);
 		free(lykill_i);
 		lykill_i = tmp;
 	}
+	free(lykill_i);
+}
+
+int er_undirlykill(char* undir, char* yfir)
+{
+	int i, j;
+	if (!er_hluti_af(undir, yfir))
+	{
+		return 0;
+	}
+
+	for (i = 0; yfir[i] != '\0'; i++)
+	{
+		for (j = 0; undir[j] != '\0'; j++)
+		{
+			if (yfir[i] == undir[i])
+			{
+				break;
+			}
+		}
+		if (undir[j] == '\0')
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 int er_hluti_af(char* undir, char* yfir)			//TODO (Bergur) laga
@@ -252,18 +359,19 @@ int er_hluti_af(char* undir, char* yfir)			//TODO (Bergur) laga
 
 int er_yfirlykill(char* lykill, fa* fa_0)
 {
-	int i;
+	int i, j;
 	char mengi[size + 1];
-	for (i = 0; i < size; i++) mengi[i] = '0';     //TODO (Bergur) laga
+
+	for (j = 0, i = 0; lykill[i] != '\0'; i++)
+	{
+		if (lykill[i] != '_')
+			j++;
+		mengi[i] = lykill[i];
+	}
 	mengi[i] = '\0';
 
-	for (i = 0; lykill[i] != '\0'; i++)
-	{
-		mengi[lykill[i] - 97] = lykill[i];
-	}
-
-	int pre_size = i + 1;
-	int post_size = i;
+	int pre_size = j + 1;
+	int post_size = j;
 	while (pre_size != post_size)
 	{
 		pre_size = post_size;
@@ -281,6 +389,7 @@ int er_yfirlykill(char* lykill, fa* fa_0)
 			fa_n = fa_n->next;
 		}
 	}
+	//printf("  %s -> %s: %d, %d\n", lykill, mengi, pre_size, size);
 
 	return pre_size == size;
 }
@@ -295,7 +404,89 @@ int er_jafn(char* str1, char* str2)
 	return str1[i] == str2[i];
 }
 
-void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size)
+void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_size)
+{
+	if (loc == key_size) return;
+
+	int i, j;
+
+	if (er_yfirlykill(candid, fa_0))
+	{
+		lykill* lykill_n = lykill_0;
+		while (lykill_n->next != NULL) 
+			lykill_n = lykill_n->next;
+
+		lykill_n->next = malloc(sizeof(lykill*));
+		lykill_n->key = malloc((key_size + 1)*sizeof(char));
+
+		for (j = 0, i = 0; i < key_size; i++)
+			if (candid[i] != '_')
+				lykill_n->key[j++] = 97 + i;
+		lykill_n->key[j] = '\0';
+		//printf("%s er yfirlykill\n", lykill_n->key);
+
+
+		lykill_n = lykill_n->next;
+		lykill_n->next = NULL;
+
+		return;
+	}
+
+
+	for (i = loc + 1; i < size; i++)
+	{
+		candid[i] = i + 97;
+		gen_yfirlyklar(candid, lykill_0, fa_0, i, size);
+		candid[i] = '_';
+	}
+}
+
+
+void ekkertbaradrasl(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_size)
+{
+	if (loc == key_size) return;
+	printf("TEST: %s, %d, %d\n", candid, loc, key_size);
+	int i, j;
+	if (er_yfirlykill(candid, fa_0))
+	{
+		lykill* lykill_n = lykill_0;
+		while (lykill_n->next != NULL) 
+			lykill_n = lykill_n->next;
+
+		lykill_n->next = malloc(sizeof(lykill*));
+		lykill_n->key = malloc((key_size + 1)*sizeof(char));
+
+		for (j = 0, i = 0; i < key_size; i++)
+			if (candid[i] != '_')
+				lykill_n->key[j++] = 97 + i;
+		lykill_n->key[j] = '\0';
+		printf("%s er yfirlykill\n", lykill_n->key);
+
+
+		lykill_n = lykill_n->next;
+		lykill_n->next = NULL;
+		
+
+		/*
+		gen_yfirlyklar(candid, lykill_0, fa_0, loc + 1, key_size);
+		candid[loc] = '_';//loc + 97;
+		gen_yfirlyklar(candid, lykill_0, fa_0, loc + 1, key_size);
+		/* */
+
+		for (i = 0; i < size; i++)
+		{
+			if (candid[i] != '_')
+			{
+				candid[i] = '_';
+				gen_yfirlyklar(candid, lykill_0, fa_0, loc + 1, size);
+				candid[i] = 97 + i;
+			}
+		}
+	}
+	
+}
+
+void _festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size)
 {
 	int i;
 	int b = 0;
@@ -324,18 +515,20 @@ void festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size
 		if (er_yfirlykill(undir, fa_0))
 		{
 			b++;
-			festa_yfirlykil(undir, lykill_0, fa_0, key_size - 1);
+			_festa_yfirlykil(undir, lykill_0, fa_0, key_size - 1);
 		}
 		undir[i] = yfir_lykill[i];
 	}
 
 	if (b == 0)
 	{
+		printf("%s er lykill.\n", yfir_lykill);
 		lykill* lykill_n = lykill_0;
 		while (lykill_n->next != NULL) lykill_n = lykill_n->next;
 		lykill_n->next = malloc(sizeof(lykill));
 		lykill_n->key = malloc((key_size + 1)*sizeof(char));
 		lykill_n->next->next = NULL;
+		lykill_n->next->key  = NULL;
 
 		for (i = 0; i < key_size + 1; i++) lykill_n->key[i] = yfir_lykill[i];
 

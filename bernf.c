@@ -73,7 +73,7 @@ void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_s
 //			brjóta á BCNF eða 3NF.
 int main(int argc, char** argv)
 {
-	int i, j;
+	int i;
 	fa* fa_0 = malloc(sizeof(fa));
 	fa* fa_n = fa_0;
 
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 	char vensl[size + 1];
 	for (i = 0; i < size; i++) vensl[i] = 97 + i;
 	vensl[i] = '\0';
-	printf("%s\n", vensl);
+	//printf("%s\n", vensl);
 	//Les inn fjölda mögulega eiginda.
 	char c = fgetc(fp);
 	while (c == 10) c = fgetc(fp);
@@ -225,24 +225,7 @@ int main(int argc, char** argv)
 	}
 
 	printf("hafa lyklanna:\n");
-	char lykla_svid[size + 1];
-	for (i = 0; i < size; i++)
-		lykla_svid[i] = '0';
-
-	lykla_svid[size] = '\0';
-	i = 1;
-	while(lykill_i->next != NULL)
-	{
-		for (j = 0; lykill_i->key[j] != '\0'; j++)
-		{
-			lykla_svid[lykill_i->key[j] - 97] = lykill_i->key[j];
-		}
-
-		printf("%d: %s\n", i++, lykill_i->key);
-		lykill_i = lykill_i->next;
-	}
-	printf("Lyklasviðið er: %s\n", lykla_svid);
-
+	
 	int is_bcnf = 1;
 	int is_3nf  = 1;
 	fa_i = fa_0;

@@ -48,7 +48,6 @@ void _festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_siz
 //Notkun:	
 //Fyrir:	
 //Eftir:	
-void samantekt_fallaakveda();
 void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_size);
 
 //Notkun:	bernf filename
@@ -201,7 +200,7 @@ int main(int argc, char** argv)
 		}
 		lykill_j = lykill_j->next;
 	}
-	if (lykill_j != NULL)
+	if (lykill_j->next != NULL)
 	{
 		//printf("Del fyrsta %s\n", lykill_0->key);
 		free(lykill_0->key);
@@ -225,6 +224,14 @@ int main(int argc, char** argv)
 	}
 
 	printf("hafa lyklanna:\n");
+	lykill_i = lykill_0;
+	i = 1;
+	while (lykill_i->next != NULL)
+	{
+		printf("%d: %s\n", i++, lykill_i->key);
+		lykill_i = lykill_i->next;
+	}
+
 	
 	int is_bcnf = 1;
 	int is_3nf  = 1;

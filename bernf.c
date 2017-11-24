@@ -89,7 +89,6 @@ int main(int argc, char** argv)
 	char vensl[size + 1];
 	for (i = 0; i < size; i++) vensl[i] = 97 + i;
 	vensl[i] = '\0';
-	//printf("%s\n", vensl);
 	//Les inn fjölda mögulega eiginda.
 	char c = fgetc(fp);
 	while (c == 10) c = fgetc(fp);
@@ -165,18 +164,15 @@ int main(int argc, char** argv)
 		{
 			if (lykill_i != lykill_j && er_undirlykill(lykill_j->key, lykill_i->key))
 			{
-				//printf("%s er      undir %s\n", lykill_j->key, lykill_i->key);
 				break;
 			}
 			else
 			{
-				//printf("%s er ekki undir %s\n", lykill_j->key, lykill_i->key);
 			}
 			lykill_j = lykill_j->next;
 		}
 		if (lykill_j->next != NULL)
 		{
-			 //printf("%s er ekki yfirlykill\n", lykill_i->key);
 			 lykill_i = lykill_i->next;
 			 free(lykill_prev->next->key);
 			 free(lykill_prev->next);
@@ -202,7 +198,6 @@ int main(int argc, char** argv)
 	}
 	if (lykill_j->next != NULL)
 	{
-		//printf("Del fyrsta %s\n", lykill_0->key);
 		free(lykill_0->key);
 		free(lykill_0);
 		lykill_0 = lykill_i;
@@ -212,7 +207,7 @@ int main(int argc, char** argv)
 	/* */
 
 	//Prentum útkomuna
-	printf("Venslin R(%s) með fallaákveður:\n", vensl);
+	printf("The relations R(%s) had the functionals:\n", vensl);
 
 	i = 1;	
 	fa* fa_i = fa_0;
@@ -223,7 +218,7 @@ int main(int argc, char** argv)
 		fa_i = fa_i->next;
 	}
 
-	printf("hafa lyklanna:\n");
+	printf("\nPossibles keys for R are:\n");
 	lykill_i = lykill_0;
 	i = 1;
 	while (lykill_i->next != NULL)
@@ -233,6 +228,7 @@ int main(int argc, char** argv)
 	}
 
 	
+	printf("\n");
 	int is_bcnf = 1;
 	int is_3nf  = 1;
 	fa_i = fa_0;
@@ -263,21 +259,21 @@ int main(int argc, char** argv)
 			{
 				is_bcnf = 0;
 				is_3nf  = 0;
-				printf("%s -> %s er brot á 3NF.\n", fa_i->inn, fa_i->ut);
+				printf("%s -> %s is 3NF violation.\n", fa_i->inn, fa_i->ut);
 			}
 			else
 			{
 				is_bcnf = 0;
-				printf("%s -> %s er brot á BCNF.\n", fa_i->inn, fa_i->ut);
+				printf("%s -> %s is a BCNF violation.\n", fa_i->inn, fa_i->ut);
 			}
 		}
 		fa_i = fa_i->next;
 	}
 	printf("\n");
-	if (is_bcnf) printf("Svo venslin eru BCNF.\n");
-	else         printf("Svo venslin eru ekki BCNF.\n");
-	if (is_3nf)  printf("Svo venslin eru 3NF.\n");
-	else         printf("Svo venslin eru ekki 3NF.\n");
+	if (is_bcnf) printf("R is BCNF.\n");
+	else         printf("R is not BCNF.\n");
+	if (is_3nf)  printf("R is 3NF.\n");
+	else         printf("R is not 3NF.\n");
 
 	fa_i = fa_0;
 	while (fa_i != NULL) 
@@ -293,7 +289,6 @@ int main(int argc, char** argv)
 	while (lykill_i->next != NULL)
 	{
 		lykill* tmp = lykill_i->next;
-		//printf("%s\n", lykill_i->key);
 		free(lykill_i->key);
 		free(lykill_i);
 		lykill_i = tmp;
@@ -381,7 +376,6 @@ int er_yfirlykill(char* lykill, fa* fa_0)
 			fa_n = fa_n->next;
 		}
 	}
-	//printf("  %s -> %s: %d, %d\n", lykill, mengi, pre_size, size);
 
 	return pre_size == size;
 }
@@ -415,7 +409,6 @@ void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_s
 			if (candid[i] != '_')
 				lykill_n->key[j++] = 97 + i;
 		lykill_n->key[j] = '\0';
-		//printf("%s er yfirlykill\n", lykill_n->key);
 
 
 		lykill_n = lykill_n->next;

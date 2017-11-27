@@ -50,6 +50,28 @@ void _festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_siz
 //Eftir:	
 void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_size);
 
+//Usage:	bernf filename
+//Before:	filename is the name of a file that includes the functionals with which to work
+//			and is on teh form
+//filename er nafn á skrá sem inniheldur fallaákveðurnar sem á að vinna með
+//			og er á forminu:
+//			-----------------------
+//			<integer>
+//			{<f>, '->', <f>}
+//			-----------------------
+//			<integer> er heiltala og <f> er strengur þar sem stafirnir koma úr umdæminu og
+//			eru unique. Umdæmið eru fyrstu <integer> stafirnir í stafrófinu. Til dæmi:
+//			-----------------------
+//			5
+//			ab -> c
+//			d -> a
+//			e -> d
+//			c -> ab
+//			-----------------------
+//			Hér er 'umdæmið' strengurinn "abcde".
+//After:	Búið er að prenta á staðalúttakið mikilvægar upplýsingar, svo sem fallaákveðurnar,
+//			mögulega lykla, hvort venslin seú BCNF eða 3NF og ef svo er ekki, þá hvaða fallaákveður
+//			brjóta á BCNF eða 3NF.
 //Notkun:	bernf filename
 //Fyrir:	filename er nafn á skrá sem inniheldur fallaákveðurnar sem á að vinna með
 //			og er á forminu:

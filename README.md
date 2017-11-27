@@ -13,4 +13,4 @@ and to run on example.in
 
 The output is useful information about the relations, such
 as teh possibles key, whether it is 3NF or BCNF, and which
-functional violate 3Nf or BCNF (if any).
+functional violate 3NF or BCNF (if any).

@@ -375,25 +375,30 @@ int er_undirlykill(char* undir, char* yfir)
 	return 0;
 }
 
-int er_hluti_af(char* undir, char* yfir)			//TODO (Bergur) laga
+int er_hluti_af(char* undir, char* yfir)
 {
 	int i, j;
 
-	int b1 = 1;
+	//int b1 = 1;
 	for (i = 0; undir[i] != '\0'; i++)
 	{
-		int b2 = 0;
+		//int b2 = 0;
 		for (j = 0; yfir[j] != '\0'; j++)
 		{
 			if (undir[i] == yfir[j])
 			{
-				b2 = 1;
+				//b2 = 1;
 				break;
 			}
 		}
-		b1 *= b2;
+		if (yfir[j] == '\0')
+		{
+			return 0;
+		}
+		//b1 *= b2;
 	}
-	return b1;
+	//return b1;
+	return 1;
 }
 
 int er_yfirlykill(char* lykill, fa* fa_0)
@@ -468,7 +473,6 @@ void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_s
 
 		return;
 	}
-
 
 	for (i = loc + 1; i < size; i++)
 	{

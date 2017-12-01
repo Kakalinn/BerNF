@@ -18,33 +18,48 @@ typedef struct lykill_tmp
 } lykill;
 
 
+//Usage:	
+//Before:	
+//After:	
+//
+//Noktun:	
+//Fyrir:	
+//Eftir:	
 int er_undirlykill(char* undir, char* yfir);
 
+//Usage:	b = er_jafn(str1, str2)
+//Before:	str1 = [s0, s1, ..., sn] and str2 = [r0, r1, ..., rm].
+//After:	b = 1 if n = m and s0 = r0, s1 = r1, ..., sn = sm, otherwise b = 0.
+//
 //Notkun:	b = er_jafn(str1, str2)
 //Fyrir:	str1 = [s0, s1, ..., sn] og str2 = [r0, r1, ..., rm].
 //Eftir:	b er 1 ef n = m og s0 = r0, s1 = r1, ..., sn = rm. Annars er b = 0.
 int er_jafn(char* str1, char* str2);
 
+//Usage:	b = er_hluti_af(u, y)
+//Before:	u and y are strings.
+//After:	b = 1 if all the characters in u are present in y, otherwise b = 0.
+//
 //Notkun:	b = er_hluti_af(u, y)
 //Fyrir:	u og y eru strengir.
 //Eftir:	b er 1 ef allir stafirnir í u eru í y, annars 0.
 int er_hluti_af(char* undir, char* yfir);
 
+//Usage:	b = er_yfirlykill(l, f)
+//Before:	l is a string.
+//			f is a list of functionals.
+//After:	b = 1 if the closure of l (w.r.t. f) is the entire domain, otherwise b = 0;
+//
 //Notkun:	b = er_yfirlykill(l, f)
 //Fyrir:	l er strengur af eigindum.
 //			f er eintengdur listi af fallaákveðum
 //Eftir:	b er 1 ef lokunin (fundin með f) á l er allt umdæmið, annars 0.
 int er_yfirlykill(char* lykill, fa* fa_0);
 
-//Notkun:	b = _festa_yfirlykil(yl, l0, ln, f0);
-//Fyrir:	yl er yfirlykill.
-//			l0 er fremsti lykill í keðju af lyklum (notað til að útiloka yfirlykla).
-//			f0 er fremsta fallaákveða í keðju af fastaákveðum.
-//			key_size er lengd yfir_lykill.
-//Eftir:	b er 1 ef yl er lykill en >0 annars. Einnig er kallað endurkvæmt á fallið til að fylla
-//			á lykilkeðjuna (sem l0 'opnar').
-void _festa_yfirlykil(char* yfir_lykill, lykill* lykill_0, fa* fa_0, int key_size);
-
+//Usage:	
+//Before:	
+//After:	
+//
 //Notkun:	
 //Fyrir:	
 //Eftir:	
@@ -53,14 +68,13 @@ void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_s
 //Usage:	bernf filename
 //Before:	filename is the name of a file that includes the functionals with which to work
 //			and is on teh form
-//filename er nafn á skrá sem inniheldur fallaákveðurnar sem á að vinna með
-//			og er á forminu:
 //			-----------------------
 //			<integer>
 //			{<f>, '->', <f>}
 //			-----------------------
-//			<integer> er heiltala og <f> er strengur þar sem stafirnir koma úr umdæminu og
-//			eru unique. Umdæmið eru fyrstu <integer> stafirnir í stafrófinu. Til dæmi:
+//			<integer> is an integer and <f> is a string where its characters are unique and from R.
+//			Being in R means being one of the <integer> first characters in the alphabet. An example
+//			of an input file is:
 //			-----------------------
 //			5
 //			ab -> c
@@ -68,10 +82,11 @@ void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_s
 //			e -> d
 //			c -> ab
 //			-----------------------
-//			Hér er 'umdæmið' strengurinn "abcde".
-//After:	Búið er að prenta á staðalúttakið mikilvægar upplýsingar, svo sem fallaákveðurnar,
-//			mögulega lykla, hvort venslin seú BCNF eða 3NF og ef svo er ekki, þá hvaða fallaákveður
-//			brjóta á BCNF eða 3NF.
+//			In this example "abcde" are the characters in R.
+//After:	Useful information has been printed on the stdin, including but not limited to the functionals
+//			possibles keys, whethere the relations are 3NF or BCNF, and if not which functionals break violate
+//			3NF or BCNF.
+//
 //Notkun:	bernf filename
 //Fyrir:	filename er nafn á skrá sem inniheldur fallaákveðurnar sem á að vinna með
 //			og er á forminu:
@@ -90,7 +105,7 @@ void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_s
 //			-----------------------
 //			Hér er 'umdæmið' strengurinn "abcde".
 //Eftir:	Búið er að prenta á staðalúttakið mikilvægar upplýsingar, svo sem fallaákveðurnar,
-//			mögulega lykla, hvort venslin seú BCNF eða 3NF og ef svo er ekki, þá hvaða fallaákveður
+//			mögulega lykla, hvort venslin séu BCNF eða 3NF og ef svo er ekki, þá hvaða fallaákveður
 //			brjóta á BCNF eða 3NF.
 int main(int argc, char** argv)
 {
@@ -98,8 +113,15 @@ int main(int argc, char** argv)
 	fa* fa_0 = malloc(sizeof(fa));
 	fa* fa_n = fa_0;
 
-	if (argc > 1) fp = fopen(argv[1], "r");
-	else          fp = fopen("input", "r");
+	if (argc > 1)
+	{
+		fp = fopen(argv[1], "r");
+	}
+	else
+	{
+		printf("%s: fatal error: no input file\nexecution terminated.\n", argv[0]);
+		exit(2);
+	}
 
 	if (!fp)
 	{
@@ -292,10 +314,10 @@ int main(int argc, char** argv)
 		fa_i = fa_i->next;
 	}
 	printf("\n");
-	if (is_bcnf) printf("R is BCNF.\n");
-	else         printf("R is not BCNF.\n");
 	if (is_3nf)  printf("R is 3NF.\n");
 	else         printf("R is not 3NF.\n");
+	if (is_bcnf) printf("R is BCNF.\n");
+	else         printf("R is not BCNF.\n");
 
 	fa_i = fa_0;
 	while (fa_i != NULL) 

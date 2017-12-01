@@ -379,15 +379,12 @@ int er_hluti_af(char* undir, char* yfir)
 {
 	int i, j;
 
-	//int b1 = 1;
 	for (i = 0; undir[i] != '\0'; i++)
 	{
-		//int b2 = 0;
 		for (j = 0; yfir[j] != '\0'; j++)
 		{
 			if (undir[i] == yfir[j])
 			{
-				//b2 = 1;
 				break;
 			}
 		}
@@ -395,9 +392,7 @@ int er_hluti_af(char* undir, char* yfir)
 		{
 			return 0;
 		}
-		//b1 *= b2;
 	}
-	//return b1;
 	return 1;
 }
 

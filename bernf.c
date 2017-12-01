@@ -56,13 +56,21 @@ int er_hluti_af(char* undir, char* yfir);
 //Eftir:	b er 1 ef lokunin (fundin með f) á l er allt umdæmið, annars 0.
 int er_yfirlykill(char* lykill, fa* fa_0);
 
-//Usage:	
-//Before:	
-//After:	
+//Usage:	gen_yfirlyklar(str, key, funct, loc, size)
+//Before:	size is the size of the domain.
+//			str is a string of length size where all elements are '_'., or str[i] = i + 'a'.
+//			key is a list of superkeys.
+//			func is a list of functionals.
+//			loc in an int between 0 and size - 1, inclusive.
+//After:	key contains all possible keys.
 //
-//Notkun:	
-//Fyrir:	
-//Eftir:	
+//Notkun:	gen_yfirlyklar(str, key, funct, loc, size)
+//Fyrir:	size er stærð umdæmisins
+//			str er strengur af lengd size par sem öll stökin eru '_' nema þegar str[i] = i + 'a'.
+//			key er listi af yfirlyklum.
+//			func er list fallaákveða.
+//			loc er heiltala á milli 0 of size - 1, að jöðrum meðtöldum.
+//Eftir:	key inniheldur alla mögulega lykla.
 void gen_yfirlyklar(char* candid, lykill* lykill_0, fa* fa_0, int loc, int key_size);
 
 //Usage:	bernf filename

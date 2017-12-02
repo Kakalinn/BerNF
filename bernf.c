@@ -164,14 +164,22 @@ int main(int argc, char** argv)
 		
 		i = 0;
 		c = fgetc(fp);
-		while (c != 10)
+		while (c != 10 && c != EOF)
 		{
 			if (c != ' ') fa_n->ut[i++] = c;
 			c = fgetc(fp);
 		}
 		fa_n->ut[i] = '\0';
+		
+		if (c == EOF)
+		{
+			break;
+		}
 
-		while (c == 10) c = fgetc(fp);
+		while (c == 10)
+		{
+			c = fgetc(fp);
+		}
 		
 		if (c == EOF)
 		{

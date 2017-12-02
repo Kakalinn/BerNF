@@ -166,7 +166,7 @@ int main(int argc, char** argv)
 		c = fgetc(fp);
 		while (c != 10 && c != EOF)
 		{
-			if (c != ' ') fa_n->ut[i++] = c;
+			if (c != 13 && c != ' ') fa_n->ut[i++] = c;
 			c = fgetc(fp);
 		}
 		fa_n->ut[i] = '\0';

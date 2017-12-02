@@ -12,5 +12,5 @@ and to run on example.in
 > proc example.in
 
 The output is useful information about the relations, such
-as teh possibles key, whether it is 3NF or BCNF, and which
+as the possibles key, whether it is 3NF or BCNF, and which
 functional violate 3NF or BCNF (if any).
